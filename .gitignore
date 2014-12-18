@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!admin/class-plugin-name-admin.php
+!admin/partials/plugin-name-admin-display.php
+!admin/partials/plugin-name-meta-box-display.php
+!admin/settings/class-plugin-name-callback-helper.php
+!admin/settings/class-plugin-name-meta-box.php
+!admin/settings/class-plugin-name-sanitization-helper.php
+!admin/settings/class-plugin-name-settings.php
+!includes/class-plugin-name-option.php
+!includes/class-plugin-name.php
