@@ -11,7 +11,9 @@ WordPress Settings Module is a standardized, organized, object-oriented foundati
 
 
 ## Installation
-This is an example of using WordPress Settings Module on a **fresh** [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/)
+Check out this [blog post](https://wphuman.com/announcing-wordpress-settings-module/) for a more detailed installation guide. 
+
+Here is an short example of using WordPress Settings Module on a **fresh** [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/)
 
 1. Clone the [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/) repo. And, follow its [installation instructions](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/blob/master/README.md#installation) but leave `Plugin_Name` unchanged.
 `git clone https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate.git`
@@ -36,85 +38,9 @@ This is an example of using WordPress Settings Module on a **fresh** [WordPress 
 ![settings list](https://raw.githubusercontent.com/wphuman/WordPress-Settings-Module/master/screenshot-settings-list.png)
 
 
-## Add a tab
-WordPress Settings Module comes with 2 tabs. Open `trunk/admin/class-plugin-name-admin.php`. Modify the `$tabs` array to add extra tabs.
-
-```php
-public function get_options_tabs() {
-
-	$tabs 					= array();
-	$tabs['default_tab']  	= __( 'Default Tab', $this->plugin_name );
-	$tabs['second_tab']  	= __( 'Second Tab', $this->plugin_name );
-	$tabs['marry_me']  		= __( 'Marry Me', $this->plugin_name );
-
-	return apply_filters( $this->snake_cased_plugin_name . '_settings_tabs', $tabs );
-}
-```
-
-## Add settings to a tab
-Open `trunk/admin/settings/class-plugin-name-settings.php`. Let's add 3 new settings to the `$settings` array.
-
-```php
-private function set_registered_settings() {
-
-	$settings = array(
-
-		// ... lots of lines of examples
-
-	'second_tab' => apply_filters( $this->snake_cased_plugin_name . '_settings_second_tab',
-		array(
-			'extend_me' => array(
-				'id' => 'extend_me',
-				'name' => 'Extend me',
-				'desc' => __( 'You can extend me via hooks and filters.', $this->plugin_name ),
-				'type' => 'text'
-				)
-			)
-		),
-	'marry_me' => apply_filters( $this->snake_cased_plugin_name . '_settings_marry_me',
-		array(
-			'your_name' => array(
-				'id' => 'your_name',
-				'name' => __( "What's your name?", $this->plugin_name ),
-				'desc' => __( 'I cant help falling in love with you', $this->plugin_name ),
-				'type' => 'text'
-				),
-			'question' => array(
-				'id' => 'question',
-				'name' => __( 'Will you marry me?', $this->plugin_name ),
-				'desc' => __( 'Take my hand, take my whole life, too', $this->plugin_name ),
-				'options' => array(
-					'yes' => __( 'Yes, i do!', $this->plugin_name  ),
-					'maybe' => __( 'Maybe', $this->plugin_name  ),
-					'no'  => __( 'F**k off', $this->plugin_name  )
-					),
-				'type' => 'radio'
-				),
-			'wedding_vow' => array(
-				'id' => 'wedding_vow',
-				'name' => __( 'Wedding vow', $this->plugin_name ),
-				'desc' => __( "Don't make me cry, baby", $this->plugin_name ),
-				'type' => 'rich_editor'
-				)
-			)
-		)
-	);
-
-	return $settings;
-}
-```
-
-Here is the resulting screenshot.
-![marry me settings](https://raw.githubusercontent.com/wphuman/WordPress-Settings-Module/master/screenshot-marry-me.png)
-
 ## Get Options
 You can rertive saved settings by `Plugin_Option::get_option( $key, $default )`
 
-```php
-Plugin_Name_Option::get_option( 'your_name' );
-Plugin_Name_Option::get_option( 'question' );
-Plugin_Name_Option::get_option( 'wedding_vow' );
-```
 
 ## Hook List
 For add-ons to extend the settings page:
@@ -141,4 +67,3 @@ Inspired by Pippin Williamson's [How I Built the Easy Digital Downloads Settings
 ## Documentation, Tutorials, FAQs, and More
 
 Not yet completed. If you’re interested, please [let me know](https://wphuman.com/contact/) and we’ll see what we can do.
-
