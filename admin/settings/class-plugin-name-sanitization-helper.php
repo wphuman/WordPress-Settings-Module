@@ -120,7 +120,7 @@ class Plugin_Name_Sanitization_Helper {
 
 		}
 
-		add_settings_error( $plugin_name . '-notices', $plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
+		add_settings_error( $this->plugin_name . '-notices', $plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
 
 		return $this->get_output( $tab, $input );
 	}

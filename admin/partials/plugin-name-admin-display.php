@@ -27,7 +27,7 @@ ob_start();
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?> </h2>
 
-	<?php settings_errors( $this->plugin_name . 'notices' ); ?>
+	<?php settings_errors( $this->plugin_name . '-notices' ); ?>
 
 	<h2 class="nav-tab-wrapper">
 		<?php
