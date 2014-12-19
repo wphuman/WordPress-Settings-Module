@@ -27,8 +27,7 @@ This is an example of using WordPress Settings Module on a **fresh** [WordPress 
 	* `WordPress-Settings-Module/includes/class-plugin-name-option.php`
 	* `WordPress-Settings-Module/includes/class-plugin-name.php`
 
-**Important**: Be careful when you replacing existing files. Review what is new from the WordPress Settings Module since it is *not* only intended for WordPress Plugin Boilerplate.
-
+	**Important**: Be careful when you replacing existing files. Review what is new from the WordPress Settings Module since it is *not* only intended for WordPress Plugin Boilerplate.
 
 4. Here is a screenshot of the file structure. Arrows indicate files from WordPress Settings Module.
 ![file structure](https://raw.githubusercontent.com/wphuman/WordPress-Settings-Module/master/screenshot-file-structure.png)
@@ -112,9 +111,9 @@ Here is the resulting screenshot.
 You can rertive saved settings by `Plugin_Option::get_option( $key, $default )`
 
 ```php
-Plugin_Option::get_option( 'your_name' );
-Plugin_Option::get_option( 'question' );
-Plugin_Option::get_option( 'wedding_vow' );
+Plugin_Name_Option::get_option( 'your_name' );
+Plugin_Name_Option::get_option( 'question' );
+Plugin_Name_Option::get_option( 'wedding_vow' );
 ```
 
 ## Hook List
