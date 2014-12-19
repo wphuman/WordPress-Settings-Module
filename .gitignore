@@ -3,6 +3,8 @@
 
 # But not these files...
 !.gitignore
+!readme.md
+!screenshot-*
 !admin/class-plugin-name-admin.php
 !admin/partials/plugin-name-admin-display.php
 !admin/partials/plugin-name-meta-box-display.php
