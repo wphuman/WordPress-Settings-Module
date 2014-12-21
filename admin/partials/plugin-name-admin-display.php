@@ -19,7 +19,7 @@
  * @since       1.0.0
 */
 
-$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], $this->get_options_tabs() ) ? $_GET[ 'tab' ] : 'default_tab';
+$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], Plugin_Name_Settings_Definition::get_tabs() ) ? $_GET[ 'tab' ] : 'default_tab';
 
 ob_start();
 ?>
@@ -31,7 +31,7 @@ ob_start();
 
 	<h2 class="nav-tab-wrapper">
 		<?php
-		foreach( $this->get_options_tabs() as $tab_id => $tab_name ) {
+		foreach( Plugin_Name_Settings_Definition::get_tabs() as $tab_id => $tab_name ) {
 
 			$tab_url = add_query_arg( array(
 				'settings-updated' => false,

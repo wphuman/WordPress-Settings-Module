@@ -123,6 +123,7 @@ class Plugin_Name {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-plugin-name-callback-helper.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-plugin-name-meta-box.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-plugin-name-sanitization-helper.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-plugin-name-settings-definition.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-plugin-name-settings.php';
 
 		$this->loader = new Plugin_Name_Loader();
@@ -174,7 +175,7 @@ class Plugin_Name {
 		$plugin_settings = new Plugin_Name_Settings( $this->get_plugin_name(), $settings_callback, $settings_sanitization);
 		$this->loader->add_action( 'admin_init' , $plugin_settings, 'register_settings' );
 
-		$plugin_meta_box = new Plugin_Name_Meta_Box( $this->get_plugin_name(), $plugin_admin->get_options_tabs() );
+		$plugin_meta_box = new Plugin_Name_Meta_Box( $this->get_plugin_name() );
 		$this->loader->add_action( 'load-toplevel_page_' . $this->get_plugin_name() , $plugin_meta_box, 'add_meta_boxes' );
 
 	}
