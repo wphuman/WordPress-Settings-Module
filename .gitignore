@@ -11,6 +11,7 @@
 !admin/settings/class-plugin-name-callback-helper.php
 !admin/settings/class-plugin-name-meta-box.php
 !admin/settings/class-plugin-name-sanitization-helper.php
+!admin/settings/class-plugin-name-settings-definition.php
 !admin/settings/class-plugin-name-settings.php
 !includes/class-plugin-name-option.php
 !includes/class-plugin-name.php
