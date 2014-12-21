@@ -28,14 +28,47 @@ class Plugin_Name_Settings_Definition {
 	 * Uppercase characters will be converted to lowercase.
 	 * Dashes characters will be converted to underscores.
 	 *
-	 * @access   private
-	 * @return string 	     	Sanitized snake cased plugin name
+	 * @access 	private
+	 * @return 	string 	     	Sanitized snake cased plugin name
 	 */
 	private static function get_snake_cased_plugin_name() {
 
 		return str_replace( '-', '_', sanitize_key( self::$plugin_name ) );
 
 	}
+
+	/**
+	 * [apply_tab_slug_filters description]
+	 * @param  array $default_settings [description]
+	 * @return array                   [description]
+	 */
+	static private function apply_tab_slug_filters( $default_settings ) {
+
+		$extended_settings[] = array();
+
+		foreach ( $default_settings as $tab_slug => $options ) {
+
+			$extended_settings[$tab_slug] = apply_filters( self::get_snake_cased_plugin_name() . '_settings_' . $tab_slug, $options );
+		}
+
+		return $extended_settings;
+	}
+
+	/**
+	 * Retrieve settings tabs
+	 *
+	 * @since 	1.0.0
+	 * @return 	array 	$tabs 	Settings tabs
+	 */
+
+		static public function get_tabs() {
+
+			$tabs 						= array();
+			$tabs['default_tab']  		= __( 'Default Tab', self::$plugin_name );
+			$tabs['second_tab']  		= __( 'Second Tab', self::$plugin_name );
+
+			return apply_filters( self::get_snake_cased_plugin_name() . '_settings_tabs', $tabs );
+		}
 
 	/**
 	 * 'Whitelisted' Plugin_Name settings, filters are provided for each settings
@@ -166,34 +199,5 @@ class Plugin_Name_Settings_Definition {
 			);
 
 		return self::apply_tab_slug_filters( $settings );
-	}
-
-
-	/**
-	 * Retrieve settings tabs
-	 *
-	 * @since 	1.0.0
-	 * @return 	array 	$tabs 	Settings tabs
-	 */
-
-	static public function get_tabs() {
-
-		$tabs 						= array();
-		$tabs['default_tab']  		= __( 'Default Tab', self::$plugin_name );
-		$tabs['second_tab']  		= __( 'Second Tab', self::$plugin_name );
-
-		return apply_filters( self::get_snake_cased_plugin_name() . '_settings_tabs', $tabs );
-	}
-
-	static private function apply_tab_slug_filters( $default_settings ) {
-
-		$extended_settings[] = array();
-
-		foreach ( $default_settings as $tab_slug => $options ) {
-
-			$extended_settings[$tab_slug] = apply_filters( self::get_snake_cased_plugin_name() . '_settings_' . $tab_slug, $options );
-		}
-
-		return $extended_settings;
 	}
 }
