@@ -186,7 +186,7 @@ class Plugin_Name_Callback_Helper {
 	public function radio_callback( $args ) {
 
 		if ( empty( $args['options'] ) ) {
-			printf( __( 'Options for <strong>%s</strong> multicheck is missing.', $this->plugin_name ), $args['id'] );
+			printf( __( 'Options for <strong>%s</strong> radio is missing.', $this->plugin_name ), $args['id'] );
 			return;
 		}
 
