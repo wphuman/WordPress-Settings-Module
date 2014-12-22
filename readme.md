@@ -4,7 +4,7 @@ WordPress Settings Module is a standardized, organized, object-oriented foundati
 
 ## Features
 * The Module is based on the [Settings API](http://codex.wordpress.org/Settings_API), [Options API](http://codex.wordpress.org/Options_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards), and [Documentation Standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
-* A set of hooks come out of the box. So that your plugin can be extended by other add-ons. See [hook list](#hook-list).
+* A set of hooks come out of the box. So that your plugin can be extended by other add-ons. See [hooks & filters list](#hook--filter-list).
 * A static class for retrieving saved settings. See [get options](#get-options).
 * (TODO) All classes, functions, and variables are documented so that you know what you need to be changed.
 
