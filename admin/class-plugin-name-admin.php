@@ -139,19 +139,4 @@ class Plugin_Name_Admin {
 			);
 
 	}
-
-	/**
-	 * Retrieve settings tabs
-	 *
-	 * @since 	1.0.0
-	 * @return 	array 	$tabs 	Settings tabs
-	 */
-	public function get_options_tabs() {
-
-		$tabs 						= array();
-		$tabs['default_tab']  		= __( 'Default Tab', $this->plugin_name );
-		$tabs['second_tab']  		= __( 'Second Tab', $this->plugin_name );
-
-		return apply_filters( $this->snake_cased_plugin_name . '_settings_tabs', $tabs );
-	}
 }

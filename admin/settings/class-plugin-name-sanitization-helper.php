@@ -50,6 +50,8 @@ class Plugin_Name_Sanitization_Helper {
 		$this->plugin_name = $plugin_name;
 		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
 
+		$this->registered_settings = Plugin_Name_Settings_Definition::get_settings();
+
 		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
 		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_email', array( $this, 'sanitize_email_field' ) );
 		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ) );
@@ -69,15 +71,6 @@ class Plugin_Name_Sanitization_Helper {
 	 */
 	private function sanitize_snake_cased( $key ) {
 		return str_replace( '-', '_', sanitize_key( $key ) );
-	}
-
-	/**
-	 * @since 	1.0.0
- 	 * @param 	array 		$registered_settings
-	 */
-	public function set_registered_settings( array $registered_settings ) {
-
-		$this->registered_settings = $registered_settings;
 	}
 
 	/**

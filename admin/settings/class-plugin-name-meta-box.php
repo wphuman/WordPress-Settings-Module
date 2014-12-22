@@ -42,11 +42,11 @@ class Plugin_Name_Meta_Box {
 	 * @since    1.0.0
 	 * @var      string    $plugin_name       The name of this plugin.
 	 */
-	public function __construct( $plugin_name, array $options_tabs ) {
+	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
-		$this->options_tabs = $options_tabs;
+		$this->options_tabs = Plugin_Name_Settings_Definition::get_tabs();
 	}
 
 	/**
