@@ -39,9 +39,11 @@ Here is an short example of using WordPress Settings Module on a **fresh** [Word
 ## Changing Plugin Names
 Besides changing the file names, these lines must be changed:
 * `admin/settings/class-plugin-name-settings-definition.php`
+
 	`$plugin_name = 'plugin-name'`
 
 * `includes/class-plugin-name-option.php`
+
 	`$plugin_options = get_option( 'plugin_name_settings', array() );`
 
 ## Get Options
