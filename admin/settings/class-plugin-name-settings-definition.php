@@ -46,8 +46,11 @@ class Plugin_Name_Settings_Definition {
 	static private function apply_tab_slug_filters( $default_settings ) {
 
 		$extended_settings[] = array();
+		$extended_tabs = self::get_tabs();
 
-		foreach ( $default_settings as $tab_slug => $options ) {
+		foreach ( $extended_tabs as $tab_slug => $tab_desc ) {
+
+			$options = isset( $default_settings[$tab_slug] ) ? $default_settings[$tab_slug] : array();
 
 			$extended_settings[$tab_slug] = apply_filters( self::get_snake_cased_plugin_name() . '_settings_' . $tab_slug, $options );
 		}
