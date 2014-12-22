@@ -19,6 +19,7 @@
 
 class Plugin_Name_Settings_Definition {
 
+	// @TODO: change plugin-name
 	public static $plugin_name = 'plugin-name';
 
 	/**

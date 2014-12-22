@@ -9,9 +9,8 @@ WordPress Settings Module is a standardized, organized, object-oriented foundati
 * (TODO) All classes, functions, and variables are documented so that you know what you need to be changed.
 
 
-
 ## Installation
-Check out this [blog post](https://wphuman.com/announcing-wordpress-settings-module/) for a more detailed installation guide. 
+Check out this [blog post](https://wphuman.com/announcing-wordpress-settings-module/) for a more detailed installation guide.
 
 Here is an short example of using WordPress Settings Module on a **fresh** [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/)
 
@@ -20,7 +19,6 @@ Here is an short example of using WordPress Settings Module on a **fresh** [Word
 
 2. Clone the WordPress Settings Module repo
 `git clone https://github.com/wphuman/WordPress-Settings-Module.git`
-
 
 3. Copy these files into the thier counterparts in `/trunk/`:
 	* `WordPress-Settings-Module/admin/partials/*`
@@ -38,11 +36,19 @@ Here is an short example of using WordPress Settings Module on a **fresh** [Word
 ![settings list](https://raw.githubusercontent.com/wphuman/WordPress-Settings-Module/master/screenshot-settings-list.png)
 
 
+## Changing Plugin Names
+Besides changing the file names, these lines must be changed:
+* `admin/settings/class-plugin-name-settings-definition.php`
+	`$plugin_name = 'plugin-name'`
+
+* `includes/class-plugin-name-option.php`
+	`$plugin_options = get_option( 'plugin_name_settings', array() );`
+
 ## Get Options
 You can rertive saved settings by `Plugin_Option::get_option( $key, $default )`
 
 
-## Hook List
+## Hook & Filter List
 For add-ons to extend the settings page:
 * `plugin_name_settings_tabs`
 * `plugin_name_settings_<tab_slug>`
@@ -52,6 +58,7 @@ During settings saving:
 * `plugin_name_settings_sanitize_<type>`
 * `plugin_name_settings_sanitize`
 * `plugin_name_settings_on_change_<key>`
+
 
 ## Is it a must to use WordPress Settings Module with WordPress Plugin Boilerplate?
 No.
