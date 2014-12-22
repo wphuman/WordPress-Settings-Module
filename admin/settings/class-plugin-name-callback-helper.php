@@ -57,20 +57,20 @@ class Plugin_Name_Callback_Helper {
 		return str_replace( '-', '_', sanitize_key( $key ) );
 	}
 
-	private function get_id_attribute( $key ) {
-		return ' id="' . $this->snake_cased_plugin_name . '_settings[' . $key . ']" ';
+	private function get_id_attribute( $id ) {
+		return ' id="' . $this->snake_cased_plugin_name . '_settings[' . $id . ']" ';
 	}
 
-	private function get_name_attribute( $key ) {
-		return ' name="' . $this->snake_cased_plugin_name . '_settings[' . $key . ']" ';
+	private function get_name_attribute( $name ) {
+		return ' name="' . $this->snake_cased_plugin_name . '_settings[' . $name . ']" ';
 	}
 
-	private function get_id_and_name_attrubutes( $key ) {
-		return  $this->get_id_attribute( $key ) . $this->get_name_attribute( $key );
+	private function get_id_and_name_attrubutes( $field_key ) {
+		return  $this->get_id_attribute( $field_key ) . $this->get_name_attribute( $field_key );
 	}
 
-	private function get_label_for( $key, $desc ) {
-		return '<label for="' . $this->snake_cased_plugin_name . '_settings[' . $key . ']"> '  . $desc . '</label>';
+	private function get_label_for( $id, $desc ) {
+		return '<label for="' . $this->snake_cased_plugin_name . '_settings[' . $id . ']"> '  . $desc . '</label>';
 	}
 
 	private function get_size( $size ) {
@@ -151,9 +151,9 @@ class Plugin_Name_Callback_Helper {
 
 		$html ='';
 
-		foreach( $args['options'] as $key => $option ) {
+		foreach( $args['options'] as $field_key => $option ) {
 
-			if( isset( $old_values[$key] ) ) {
+			if( isset( $old_values[$field_key] ) ) {
 				$enabled = $option;
 			} else {
 				$enabled = NULL;
@@ -162,10 +162,10 @@ class Plugin_Name_Callback_Helper {
 			$checked = checked( $option, $enabled, false );
 
 			$html .= '<input type="checkbox" ';
-			$html .= $this->get_id_and_name_attrubutes( $args['id'] . '][' . $key );
+			$html .= $this->get_id_and_name_attrubutes( $args['id'] . '][' . $field_key );
 			$html .= ' value="' . $option . '" ' . $checked . '/> ';
 
-			$html .= $this->get_label_for( $args['id'] . '][' . $key, $option );
+			$html .= $this->get_label_for( $args['id'] . '][' . $field_key, $option );
 			$html .= '<br/>';
 		}
 
@@ -194,20 +194,20 @@ class Plugin_Name_Callback_Helper {
 
 		$html = '';
 
-		foreach ( $args['options'] as $key => $option ) {
+		foreach ( $args['options'] as $field_key => $option ) {
 
 			if ( !empty( $old_value ) ) {
-				$checked = checked( $key, $old_value,false );
+				$checked = checked( $field_key, $old_value,false );
 			} else {
-				$checked = checked( $args['std'], $key, false );
+				$checked = checked( $args['std'], $field_key, false );
 			}
 
 			$html .= '<input type="radio"';
 			$html .= $this->get_name_attribute( $args['id'] );
-			$html .= $this->get_id_attribute( $args['id'] . '][' . $key );
-			$html .= ' value="' . $key . '" ' . $checked . '/> ';
+			$html .= $this->get_id_attribute( $args['id'] . '][' . $field_key );
+			$html .= ' value="' . $field_key . '" ' . $checked . '/> ';
 
-			$html .= $this->get_label_for( $args['id'] . '][' . $key, $option );
+			$html .= $this->get_label_for( $args['id'] . '][' . $field_key, $option );
 			$html .= '<br/>';
 
 		}

@@ -45,7 +45,7 @@ Besides changing the file names, these lines must be changed:
 	`$plugin_options = get_option( 'plugin_name_settings', array() );`
 
 ## Get Options
-You can rertive saved settings by `Plugin_Option::get_option( $key, $default )`
+You can rertive saved settings by `Plugin_Option::get_option( $field_key, $default )`
 
 
 ## Hook & Filter List
@@ -57,7 +57,7 @@ During settings saving:
 * `plugin_name_settings_sanitize_<tab>`
 * `plugin_name_settings_sanitize_<type>`
 * `plugin_name_settings_sanitize`
-* `plugin_name_settings_on_change_<key>`
+* `plugin_name_settings_on_change_<field_key>`
 
 
 ## Is it a must to use WordPress Settings Module with WordPress Plugin Boilerplate?
