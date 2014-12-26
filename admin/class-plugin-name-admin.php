@@ -113,17 +113,6 @@ class Plugin_Name_Admin {
 	}
 
 	/**
-	 * Render the settings page for this plugin.
-	 *
-	 * @since    1.0.0
-	 */
-	public function display_plugin_admin_page() {
-
-		include_once( 'partials/' . $this->plugin_name . '-admin-display.php' );
-
-	}
-
-	/**
 	 * Add settings action link to the plugins page.
 	 *
 	 * @since    1.0.0
@@ -137,6 +126,23 @@ class Plugin_Name_Admin {
 				),
 			$links
 			);
+
+	}
+
+	/**
+	 * Render the settings page for this plugin.
+	 *
+	 * @since    1.0.0
+	 */
+	public function display_plugin_admin_page() {
+
+		$tabs = Plugin_Name_Settings_Definition::get_tabs();
+
+		$default_tab = Plugin_Name_Settings_Definition::get_default_tab_slug();
+
+		$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], $tabs ) ? $_GET[ 'tab' ] : $default_tab;
+
+		include_once( 'partials/' . $this->plugin_name . '-admin-display.php' );
 
 	}
 }

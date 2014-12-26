@@ -19,11 +19,7 @@
  * @since       1.0.0
 */
 
-$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], Plugin_Name_Settings_Definition::get_tabs() ) ? $_GET[ 'tab' ] : 'default_tab';
-
-ob_start();
 ?>
-
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?> </h2>
 
@@ -31,14 +27,14 @@ ob_start();
 
 	<h2 class="nav-tab-wrapper">
 		<?php
-		foreach( Plugin_Name_Settings_Definition::get_tabs() as $tab_id => $tab_name ) {
+		foreach( $tabs as $tab_slug => $tab_name ) {
 
 			$tab_url = add_query_arg( array(
 				'settings-updated' => false,
-				'tab' => $tab_id
+				'tab' => $tab_slug
 				) );
 
-			$active = $active_tab == $tab_id ? ' nav-tab-active' : '';
+			$active = $active_tab == $tab_slug ? ' nav-tab-active' : '';
 
 			echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="nav-tab' . $active . '">';
 			echo esc_html( $tab_name );
@@ -61,6 +57,3 @@ ob_start();
 
 	</div><!-- #poststuff-->
 </div><!-- .wrap -->
-
-<?php
-echo ob_get_clean();
