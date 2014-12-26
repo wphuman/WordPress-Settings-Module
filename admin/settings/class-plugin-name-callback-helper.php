@@ -73,14 +73,6 @@ class Plugin_Name_Callback_Helper {
 		return '<label for="' . $this->snake_cased_plugin_name . '_settings[' . $id . ']"> '  . $desc . '</label>';
 	}
 
-	private function get_size( $size ) {
-		if ( !empty( $size ) ) {
-			return $size;
-		} else {
-			return 'regular';
-		}
-	}
-
 	/**
 	 * Missing Callback
 	 *
@@ -288,13 +280,11 @@ class Plugin_Name_Callback_Helper {
 	 */
 	private function input_type_callback( $type, $args ) {
 
-		$std = isset( $args['std'] ) ? $args['std'] : '';
-		$value = Plugin_Name_Option::get_option( $args['id'], $std );
-		$size = $this->get_size( $args['size'] );
+		$value = Plugin_Name_Option::get_option( $args['id'], $args['std']  );
 
 		$html = '<input type="' . $type . '" ';
 		$html .= $this->get_id_and_name_attrubutes( $args['id'] );
-		$html .= 'class="' . $size . '-text" ';
+		$html .= 'class="' . $args['size'] . '-text" ';
 		$html .= 'value="' . esc_attr( stripslashes( $value ) ) . '"/>';
 
 		$html .= '<br />';
@@ -316,11 +306,10 @@ class Plugin_Name_Callback_Helper {
 
 		$value = Plugin_Name_Option::get_option( $args['id'] );
 
-		$size = $this->get_size( $args['size'] );
 
 		$html = '<input type="number" ';
 		$html .= $this->get_id_and_name_attrubutes( $args['id'] );
-		$html .= 'class="' . $size . '-text" ';
+		$html .= 'class="' . $args['size'] . '-text" ';
 		$html .= 'step="' . $args['step'] . '" ';
 		$html .= 'max="' . $args['max'] . '" ';
 		$html .= 'min="' . $args['min'] . '" ';
@@ -343,16 +332,17 @@ class Plugin_Name_Callback_Helper {
 	 */
 	public function textarea_callback( $args ) {
 
-		$std = isset( $args['std'] ) ? $args['std'] : '';
-		$value = Plugin_Name_Option::get_option( $args['id'], $std );
+		$value = Plugin_Name_Option::get_option( $args['id'], $args['std']  );
 
-		$size = $this->get_size( $args['size'] );
 
-		$html = '<textarea class="large-text" cols="50" rows="5" ';
+		$html = '<textarea ';
+		$html .= 'class="' . $args['size'] . '-text" ';
+		$html .= 'cols="50" rows="5" ';
 		$html .= $this->get_id_and_name_attrubutes( $args['id'] ) . '>';
 		$html .= esc_textarea( stripslashes( $value ) );
 		$html .= '</textarea>';
 
+		$html .= '<br />';
 		$html .= $this->get_label_for( $args['id'], $args['desc'] );
 
 		echo $html;
@@ -404,7 +394,7 @@ class Plugin_Name_Callback_Helper {
 			wp_editor( stripslashes( $value ), $this->snake_cased_plugin_name . '_settings_' . $args['id'], array( 'textarea_name' => $this->snake_cased_plugin_name . '_settings[' . $args['id'] . ']' ) );
 			$html = ob_get_clean();
 		} else {
-			$html = '<textarea' . $this->get_id_and_name_attrubutes( $args['id'] ) . 'class="large-text" rows="10" >' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
+			$html = '<textarea' . $this->get_id_and_name_attrubutes( $args['id'] ) . 'class="' . $args['size'] . '-text" rows="10" >' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
 		}
 
 		$html .= '<br/>';
@@ -425,11 +415,10 @@ class Plugin_Name_Callback_Helper {
 	 */
 	public function upload_callback( $args ) {
 
-		$size = $this->get_size( $args['size'] );
 
 		$html = '<input type="text" ';
 		$html .= $this->get_id_and_name_attrubutes( $args['id'] );
-		$html .= 'class="' . $size . '-text ' . $this->snake_cased_plugin_name . '_upload_field" ';
+		$html .= 'class="' . $args['size'] . '-text ' . $this->snake_cased_plugin_name . '_upload_field" ';
 		$html .= ' value="' . esc_attr( stripslashes( $value ) ) . '"/>';
 
 		$html .= '<span>&nbsp;<input type="button" class="' . $this->snake_cased_plugin_name . '_settings_upload_button button-secondary" value="' . __( 'Upload File', $this->plugin_name ) . '"/></span>';

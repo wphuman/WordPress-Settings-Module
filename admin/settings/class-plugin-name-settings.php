@@ -141,7 +141,7 @@ class Plugin_Name_Settings {
 						'desc'    => !empty( $option['desc'] ) ? $option['desc'] : '',
 						'name'    => $_name,
 						'section' => $tab,
-						'size'    => isset( $option['size'] ) ? $option['size'] : null,
+						'size'    => isset( $option['size'] ) ? $option['size'] : 'regular',
 						'options' => isset( $option['options'] ) ? $option['options'] : '',
 						'std'     => isset( $option['std'] ) ? $option['std'] : '',
 						'max'    => isset( $option['max'] ) ? $option['max'] : 999999,
