@@ -98,18 +98,29 @@ class Plugin_Name_Admin {
 	 */
 	public function add_plugin_admin_menu() {
 
-		/*
-		 * Add a settings page for this plugin to the Settings menu.
-		 */
-
 		add_menu_page(
-			__( 'Plugin_Name', $this->plugin_name ),
-			__( 'Plugin_Name', $this->plugin_name ),
+			__( 'Plugin Name', $this->plugin_name ),
+			__( 'Plugin Name', $this->plugin_name ),
 			'manage_options',
 			$this->plugin_name,
 			array( $this, 'display_plugin_admin_page' )
 			);
 
+		$tabs = Plugin_Name_Settings_Definition::get_tabs();
+
+		foreach ( $tabs as $tab_slug => $tab_title ) {
+
+			add_submenu_page(
+				$this->plugin_name,
+				$tab_title,
+				$tab_title,
+				'manage_options',
+				$this->plugin_name . '&tab=' . $tab_slug,
+				array( $this, 'display_plugin_admin_page' )
+				);
+		}
+
+		remove_submenu_page( $this->plugin_name, $this->plugin_name );
 	}
 
 	/**
