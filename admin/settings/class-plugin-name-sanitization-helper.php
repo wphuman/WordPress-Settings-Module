@@ -74,6 +74,15 @@ class Plugin_Name_Sanitization_Helper {
 	}
 
 	/**
+	 * Return the snake cased version of the Plugin Name
+	 *
+	 * @return string
+	 */
+	public function get_snake_cased_plugin_name() {
+		return $this->snake_cased_plugin_name;
+	}
+
+	/**
 	 * Settings Sanitization
 	 *
 	 * Adds a settings error (for the updated message)
@@ -104,12 +113,15 @@ class Plugin_Name_Sanitization_Helper {
 		// Tab filter
 		$input = apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize_' . $tab, $input );
 
+		// Trigger action hook for general settings update for $tab
+		$this->do_settings_on_change_hook( $input, $tab );
+
 		// Loop through each setting being saved and pass it through a sanitization filter
 		foreach ( $input as $key => $value ) {
 
 			$input[$key] = $this->apply_type_filter( $input, $tab, $key );
 			$input[$key] = $this->apply_general_filter( $input, $key );
-			$this->do_settings_on_change_hook( $key, $new_value );
+			$this->do_settings_on_key_change_hook( $key, $new_value );
 
 		}
 
@@ -136,13 +148,32 @@ class Plugin_Name_Sanitization_Helper {
 	}
 
 	// Key specific on change hook
-	private function do_settings_on_change_hook( $key, $new_value ) {
+	private function do_settings_on_key_change_hook( $key, $new_value ) {
 
 		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
 
 		if ( $old_plugin_settings[$key] !== $new_value ) {
 
 			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $key, $new_value, $old_plugin_settings[$key] );
+
+		}
+	}
+
+	// Tab specific on change hook (only if a value has changed)
+	private function do_settings_on_change_hook( $new_values, $tab ) {
+
+		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
+		$changed = false;
+
+		foreach( $new_values as $key => $new_value ) {
+			if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
+				$changed = true;
+			}
+		}
+
+		if ( $changed ) {
+
+			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $tab, $new_values, $old_plugin_settings );
 
 		}
 	}
