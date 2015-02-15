@@ -92,10 +92,11 @@ class Plugin_Name_Sanitization_Helper {
 	 * Thus, no error messages will be produced.
 	 *
 	 * Filters in order:
-	 * - plugin_name_settings_sanitize_ $tab
-	 * - plugin_name_settings_sanitize_ $type
-	 * - plugin_name_settings_sanitize
-	 * - plugin_name_settings_on_change_ $key
+	 * - <snake_cased_plugin_name>_settings_sanitize_<tab_slug>
+	 * - <snake_cased_plugin_name>_settings_sanitize_<type>
+	 * - <snake_cased_plugin_name>_settings_sanitize
+	 * - <snake_cased_plugin_name>_settings_on_change_<tab_slug>
+	 * - <snake_cased_plugin_name>_settings_on_change_<field_key>
 	 *
 	 * @since 	1.0.0
 	 * @param 	array 		$input 		The value inputted in the field
