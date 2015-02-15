@@ -56,13 +56,15 @@ For add-ons to extend the settings page:
 * `plugin_name_settings_<tab_slug>`
 
 During settings saving:
-* Filter: `<snake_cased_plugin_name>_settings_sanitize_<tab>`
+* Filter: `<snake_cased_plugin_name>_settings_sanitize_<tab_slug>`
 * Filter: `<snake_cased_plugin_name>_settings_sanitize_<type>`
 * Filter: `<snake_cased_plugin_name>_settings_sanitize`
-* Action: `<snake_cased_plugin_name>_settings_on_change_<tab>`
+* Action: `<snake_cased_plugin_name>_settings_on_change_<tab_slug>`
 * Action: `<snake_cased_plugin_name>_settings_on_change_<field_key>`
    * Eg: `$this->loader->add_action( $settings_sanitization->get_snake_cased_plugin_name() . '_settings_on_change_my_tab_name', $plugin_admin, 'my_tab_name_settings_save', 10, 2 );`
 
+## Limitation
+* `tab_slug` cannot be the same as `field_key`
 
 ## Is it a must to use WordPress Settings Module with WordPress Plugin Boilerplate?
 No.
