@@ -52,10 +52,10 @@ class Plugin_Name_Sanitization_Helper {
 
 		$this->registered_settings = Plugin_Name_Settings_Definition::get_settings();
 
-		//add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
-		//add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_email', array( $this, 'sanitize_email_field' ) );
-		//add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ) );
-		//add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_url', array( $this, 'sanitize_url_field' ) );
+		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
+		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_email', array( $this, 'sanitize_email_field' ) );
+		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ) );
+		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_url', array( $this, 'sanitize_url_field' ) );
 	}
 
 	/**
