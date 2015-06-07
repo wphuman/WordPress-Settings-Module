@@ -109,7 +109,7 @@ class Plugin_Name_Sanitization_Helper {
 		}
 
 		parse_str( $_POST['_wp_http_referer'], $referrer );
-		$tab = isset( $referrer['tab'] ) ? $referrer['tab'] : 'default_tab';
+		$tab = isset( $referrer['tab'] ) ? $referrer['tab'] : Plugin_Name_Settings_Definition::get_default_tab_slug();
 
 		// Tab filter
 		$input = apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize_' . $tab, $input );
