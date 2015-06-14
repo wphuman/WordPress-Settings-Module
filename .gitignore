@@ -10,3 +10,5 @@
 !admin/settings/*.php
 !includes/class-plugin-name-option.php
 !includes/class-plugin-name.php
+
+index.php
