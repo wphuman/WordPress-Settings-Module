@@ -91,8 +91,7 @@ class Plugin_Name_Sanitization_Helper {
 			$this->do_settings_on_key_change_hook( $key, $new_value );
 
 		}
-		//changed $plugin_name to $this->plugin_name
-		//By Bharat
+
 		add_settings_error( $this->plugin_name . '-notices', $this->plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
 
 		return $this->get_output( $tab, $input );
