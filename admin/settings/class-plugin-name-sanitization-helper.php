@@ -74,6 +74,15 @@ class Plugin_Name_Sanitization_Helper {
 	}
 
 	/**
+	 * Return the snake cased version of the Plugin Name
+	 *
+	 * @return string
+	 */
+	public function get_snake_cased_plugin_name() {
+		return $this->snake_cased_plugin_name;
+	}
+
+	/**
 	 * Settings Sanitization
 	 *
 	 * Adds a settings error (for the updated message)
@@ -83,10 +92,11 @@ class Plugin_Name_Sanitization_Helper {
 	 * Thus, no error messages will be produced.
 	 *
 	 * Filters in order:
-	 * - plugin_name_settings_sanitize_ $tab
-	 * - plugin_name_settings_sanitize_ $type
-	 * - plugin_name_settings_sanitize
-	 * - plugin_name_settings_on_change_ $key
+	 * - <snake_cased_plugin_name>_settings_sanitize_<tab_slug>
+	 * - <snake_cased_plugin_name>_settings_sanitize_<type>
+	 * - <snake_cased_plugin_name>_settings_sanitize
+	 * - <snake_cased_plugin_name>_settings_on_change_<tab_slug>
+	 * - <snake_cased_plugin_name>_settings_on_change_<field_key>
 	 *
 	 * @since 	1.0.0
 	 * @param 	array 		$input 		The value inputted in the field
@@ -99,21 +109,25 @@ class Plugin_Name_Sanitization_Helper {
 		}
 
 		parse_str( $_POST['_wp_http_referer'], $referrer );
-		$tab = isset( $referrer['tab'] ) ? $referrer['tab'] : 'default_tab';
+		$tab = isset( $referrer['tab'] ) ? $referrer['tab'] : Plugin_Name_Settings_Definition::get_default_tab_slug();
 
 		// Tab filter
 		$input = apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize_' . $tab, $input );
 
+		// Trigger action hook for general settings update for $tab
+		$this->do_settings_on_change_hook( $input, $tab );
+
 		// Loop through each setting being saved and pass it through a sanitization filter
 		foreach ( $input as $key => $value ) {
-
+			$new_value = $value; // set value of $value in $new_value
 			$input[$key] = $this->apply_type_filter( $input, $tab, $key );
 			$input[$key] = $this->apply_general_filter( $input, $key );
-			$this->do_settings_on_change_hook( $key, $new_value );
+			$this->do_settings_on_key_change_hook( $key, $new_value );
 
 		}
-
-		add_settings_error( $this->plugin_name . '-notices', $plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
+		//changed $plugin_name to $this->plugin_name
+		//By Bharat
+		add_settings_error( $this->plugin_name . '-notices', $this->plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
 
 		return $this->get_output( $tab, $input );
 	}
@@ -136,13 +150,33 @@ class Plugin_Name_Sanitization_Helper {
 	}
 
 	// Key specific on change hook
-	private function do_settings_on_change_hook( $key, $new_value ) {
+	private function do_settings_on_key_change_hook( $key, $new_value ) {
 
 		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
-
-		if ( $old_plugin_settings[$key] !== $new_value ) {
+		//checks if value is saved already in $old_plugin_settings
+		if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
 
 			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $key, $new_value, $old_plugin_settings[$key] );
+
+		}
+	}
+
+	// Tab specific on change hook (only if a value has changed)
+	private function do_settings_on_change_hook( $new_values, $tab ) {
+
+		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
+		$changed = false;
+
+		foreach( $new_values as $key => $new_value ) {
+
+			if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
+				$changed = true;
+			}
+		}
+
+		if ( $changed ) {
+
+			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $tab, $new_values, $old_plugin_settings );
 
 		}
 	}
@@ -156,14 +190,16 @@ class Plugin_Name_Sanitization_Helper {
 
 		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
 
+		if(!is_array($old_plugin_settings))
+			$old_plugin_settings = array();
+		
 		// Remove empty elements
 		$input = array_filter( $input, array( $this, 'not_empty_or_zero') );
-
 		foreach ( $this->registered_settings[$tab] as $key => $_value ) {
 
 			if ( ! isset( $input[$key] ) ) {
-				$this->do_settings_on_change_hook( $key, null );
-				unset( $old_plugin_settings[$key] );
+				$this->do_settings_on_key_change_hook( $key, null );
+				if(isset($old_plugin_settings[$key])){unset( $old_plugin_settings[$key] );}
 			}
 		}
 
