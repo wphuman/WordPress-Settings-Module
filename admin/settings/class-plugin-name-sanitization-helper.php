@@ -119,14 +119,15 @@ class Plugin_Name_Sanitization_Helper {
 
 		// Loop through each setting being saved and pass it through a sanitization filter
 		foreach ( $input as $key => $value ) {
-
+			$new_value = $value; // set value of $value in $new_value
 			$input[$key] = $this->apply_type_filter( $input, $tab, $key );
 			$input[$key] = $this->apply_general_filter( $input, $key );
 			$this->do_settings_on_key_change_hook( $key, $new_value );
 
 		}
-
-		add_settings_error( $this->plugin_name . '-notices', $plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
+		//changed $plugin_name to $this->plugin_name
+		//By Bharat
+		add_settings_error( $this->plugin_name . '-notices', $this->plugin_name, __( 'Settings updated.', $this->plugin_name ), 'updated' );
 
 		return $this->get_output( $tab, $input );
 	}
@@ -152,8 +153,8 @@ class Plugin_Name_Sanitization_Helper {
 	private function do_settings_on_key_change_hook( $key, $new_value ) {
 
 		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
-
-		if ( $old_plugin_settings[$key] !== $new_value ) {
+		//checks if value is saved already in $old_plugin_settings
+		if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
 
 			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $key, $new_value, $old_plugin_settings[$key] );
 
@@ -167,6 +168,7 @@ class Plugin_Name_Sanitization_Helper {
 		$changed = false;
 
 		foreach( $new_values as $key => $new_value ) {
+
 			if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
 				$changed = true;
 			}
@@ -188,14 +190,16 @@ class Plugin_Name_Sanitization_Helper {
 
 		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
 
+		if(!is_array($old_plugin_settings))
+			$old_plugin_settings = array();
+		
 		// Remove empty elements
 		$input = array_filter( $input, array( $this, 'not_empty_or_zero') );
-
 		foreach ( $this->registered_settings[$tab] as $key => $_value ) {
 
 			if ( ! isset( $input[$key] ) ) {
-				$this->do_settings_on_change_hook( $key, null );
-				unset( $old_plugin_settings[$key] );
+				$this->do_settings_on_key_change_hook( $key, null );
+				if(isset($old_plugin_settings[$key])){unset( $old_plugin_settings[$key] );}
 			}
 		}
 
