@@ -21,15 +21,6 @@ class Plugin_Name_Sanitization_Helper {
 	private $plugin_name;
 
 	/**
-	 * The snake cased version of plugin ID for making hook tags.
-	 *
-	 * @since 	1.0.0
-	 * @access 	private
-	 * @var 	string 		$plugin_name 	The ID of this plugin.
-	 */
-	private $snake_cased_plugin_name;
-
-	/**
 	 * The array of plugin settings.
 	 *
 	 * @since 	1.0.0
@@ -48,38 +39,13 @@ class Plugin_Name_Sanitization_Helper {
 	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
 
 		$this->registered_settings = Plugin_Name_Settings_Definition::get_settings();
 
-		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
-		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_email', array( $this, 'sanitize_email_field' ) );
-		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ) );
-		add_filter( $this->snake_cased_plugin_name . '_settings_sanitize_url', array( $this, 'sanitize_url_field' ) );
-	}
-
-	/**
-	 * Sanitize a string key.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access   private
-	 * @param  string 	$key 	String key
-	 * @return string 	     	Sanitized snake cased key
-	 */
-	private function sanitize_snake_cased( $key ) {
-		return str_replace( '-', '_', sanitize_key( $key ) );
-	}
-
-	/**
-	 * Return the snake cased version of the Plugin Name
-	 *
-	 * @return string
-	 */
-	public function get_snake_cased_plugin_name() {
-		return $this->snake_cased_plugin_name;
+		add_filter( 'plugin_name_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
+		add_filter( 'plugin_name_settings_sanitize_email', array( $this, 'sanitize_email_field' ) );
+		add_filter( 'plugin_name_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ) );
+		add_filter( 'plugin_name_settings_sanitize_url', array( $this, 'sanitize_url_field' ) );
 	}
 
 	/**
@@ -92,11 +58,11 @@ class Plugin_Name_Sanitization_Helper {
 	 * Thus, no error messages will be produced.
 	 *
 	 * Filters in order:
-	 * - <snake_cased_plugin_name>_settings_sanitize_<tab_slug>
-	 * - <snake_cased_plugin_name>_settings_sanitize_<type>
-	 * - <snake_cased_plugin_name>_settings_sanitize
-	 * - <snake_cased_plugin_name>_settings_on_change_<tab_slug>
-	 * - <snake_cased_plugin_name>_settings_on_change_<field_key>
+	 * - plugin_name_settings_sanitize_<tab_slug>
+	 * - plugin_name_settings_sanitize_<type>
+	 * - plugin_name_settings_sanitize
+	 * - plugin_name_settings_on_change_<tab_slug>
+	 * - plugin_name_settings_on_change_<field_key>
 	 *
 	 * @since 	1.0.0
 	 * @param 	array 		$input 		The value inputted in the field
@@ -112,7 +78,7 @@ class Plugin_Name_Sanitization_Helper {
 		$tab = isset( $referrer['tab'] ) ? $referrer['tab'] : Plugin_Name_Settings_Definition::get_default_tab_slug();
 
 		// Tab filter
-		$input = apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize_' . $tab, $input );
+		$input = apply_filters( 'plugin_name_settings_sanitize_' . $tab, $input );
 
 		// Trigger action hook for general settings update for $tab
 		$this->do_settings_on_change_hook( $input, $tab );
@@ -141,22 +107,22 @@ class Plugin_Name_Sanitization_Helper {
 			return $input[$key];
 		}
 
-		return apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize_' . $type, $input[$key], $key );
+		return apply_filters( 'plugin_name_settings_sanitize_' . $type, $input[$key], $key );
 	}
 
 	private function apply_general_filter( $input, $key ) {
 
-		return apply_filters( $this->snake_cased_plugin_name . '_settings_sanitize', $input[$key], $key );
+		return apply_filters( 'plugin_name_settings_sanitize', $input[$key], $key );
 	}
 
 	// Key specific on change hook
 	private function do_settings_on_key_change_hook( $key, $new_value ) {
 
-		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
+		$old_plugin_settings = get_option( 'plugin_name_settings' );
 		//checks if value is saved already in $old_plugin_settings
 		if ( isset($old_plugin_settings[$key]) && $old_plugin_settings[$key] !== $new_value ) {
 
-			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $key, $new_value, $old_plugin_settings[$key] );
+			do_action( 'plugin_name_settings_on_change_' . $key, $new_value, $old_plugin_settings[$key] );
 
 		}
 	}
@@ -164,7 +130,7 @@ class Plugin_Name_Sanitization_Helper {
 	// Tab specific on change hook (only if a value has changed)
 	private function do_settings_on_change_hook( $new_values, $tab ) {
 
-		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
+		$old_plugin_settings = get_option( 'plugin_name_settings' );
 		$changed = false;
 
 		foreach( $new_values as $key => $new_value ) {
@@ -176,23 +142,23 @@ class Plugin_Name_Sanitization_Helper {
 
 		if ( $changed ) {
 
-			do_action( $this->snake_cased_plugin_name . '_settings_on_change_' . $tab, $new_values, $old_plugin_settings );
+			do_action( 'plugin_name_settings_on_change_' . $tab, $new_values, $old_plugin_settings );
 
 		}
 	}
 
 	private function not_empty_or_zero( $var ){
-  		return ( !empty( $var ) || '0' == $var );
+		  return ( !empty( $var ) || '0' == $var );
 	}
 
 	// Loop through the whitelist and unset any that are empty for the tab being saved
 	private function get_output( $tab, $input ) {
 
-		$old_plugin_settings = get_option( $this->snake_cased_plugin_name . '_settings' );
+		$old_plugin_settings = get_option( 'plugin_name_settings' );
 
 		if(!is_array($old_plugin_settings))
 			$old_plugin_settings = array();
-		
+
 		// Remove empty elements
 		$input = array_filter( $input, array( $this, 'not_empty_or_zero') );
 		foreach ( $this->registered_settings[$tab] as $key => $_value ) {

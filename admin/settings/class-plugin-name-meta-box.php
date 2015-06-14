@@ -19,15 +19,6 @@ class Plugin_Name_Meta_Box {
 	private $plugin_name;
 
 	/**
-	 * The snake cased version of plugin ID for making hook tags.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $snake_cased_plugin_name;
-
-	/**
 	 * The araay of settings tabs
 	 *
 	 * @since 	1.0.0
@@ -45,24 +36,7 @@ class Plugin_Name_Meta_Box {
 	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
 		$this->options_tabs = Plugin_Name_Settings_Definition::get_tabs();
-	}
-
-	/**
-	 * Sanitize a string key.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access   private
-	 * @param  string 	$key 	String key
-	 * @return string 	     	Sanitized snake cased key
-	 */
-	private function sanitize_snake_cased( $key ) {
-
-		return str_replace( '-', '_', sanitize_key( $key ) );
 	}
 
 	/**
@@ -78,7 +52,7 @@ class Plugin_Name_Meta_Box {
 					$tab_id,							// Meta box ID
 					$tab_name,							// Meta box Title
 					array( $this, 'render_meta_box' ),	// Callback defining the plugin's innards
-					$this->snake_cased_plugin_name . '_settings_' . $tab_id, // Screen to which to add the meta box
+					'plugin_name_settings_' . $tab_id, // Screen to which to add the meta box
 					'normal'							// Context
 					);
 

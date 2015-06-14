@@ -21,13 +21,13 @@ Here is an short example of using WordPress Settings Module on a **fresh** [Word
 `git clone https://github.com/wphuman/WordPress-Settings-Module.git`
 
 3. Copy these files into the thier counterparts in `/trunk/`:
-	* `WordPress-Settings-Module/admin/partials/*`
-	* `WordPress-Settings-Module/admin/settings/*`
-	* `WordPress-Settings-Module/admin/class-plugin-name-admin.php`
-	* `WordPress-Settings-Module/includes/class-plugin-name-option.php`
-	* `WordPress-Settings-Module/includes/class-plugin-name.php`
+  * `WordPress-Settings-Module/admin/partials/*`
+  * `WordPress-Settings-Module/admin/settings/*`
+  * `WordPress-Settings-Module/admin/class-plugin-name-admin.php`
+  * `WordPress-Settings-Module/includes/class-plugin-name-option.php`
+  * `WordPress-Settings-Module/includes/class-plugin-name.php`
 
-	**Important**: Be careful when you replacing existing files. Review what is new from the WordPress Settings Module since it is *not* only intended for WordPress Plugin Boilerplate.
+  **Important**: Be careful when you replacing existing files. Review what is new from the WordPress Settings Module since it is *not* only intended for WordPress Plugin Boilerplate.
 
 4. Here is a screenshot of the file structure. Arrows indicate files from WordPress Settings Module.
 ![file structure](https://raw.githubusercontent.com/wphuman/WordPress-Settings-Module/master/screenshot-file-structure.png)
@@ -40,11 +40,11 @@ Here is an short example of using WordPress Settings Module on a **fresh** [Word
 Besides changing the file names, these lines must be changed:
 * `admin/settings/class-plugin-name-settings-definition.php`
 
-	`$plugin_name = 'plugin-name'`
+  `$plugin_name = 'plugin-name'`
 
 * `includes/class-plugin-name-option.php`
 
-	`$plugin_options = get_option( 'plugin_name_settings', array() );`
+  `$plugin_options = get_option( 'plugin_name_settings', array() );`
 
 ## Get Options
 You can rertive saved settings by `Plugin_Option::get_option( $field_key, $default )`
@@ -56,12 +56,12 @@ For add-ons to extend the settings page:
 * `plugin_name_settings_<tab_slug>`
 
 During settings saving:
-* Filter: `<snake_cased_plugin_name>_settings_sanitize_<tab_slug>`
-* Filter: `<snake_cased_plugin_name>_settings_sanitize_<type>`
-* Filter: `<snake_cased_plugin_name>_settings_sanitize`
-* Action: `<snake_cased_plugin_name>_settings_on_change_<tab_slug>`
-* Action: `<snake_cased_plugin_name>_settings_on_change_<field_key>`
-   * Eg: `$this->loader->add_action( $settings_sanitization->get_snake_cased_plugin_name() . '_settings_on_change_my_tab_name', $plugin_admin, 'my_tab_name_settings_save', 10, 2 );`
+* Filter: `plugin_name_settings_sanitize_<tab_slug>`
+* Filter: `plugin_name_settings_sanitize_<type>`
+* Filter: `plugin_name_settings_sanitize`
+* Action: `plugin_name_settings_on_change_<tab_slug>`
+* Action: `plugin_name_settings_on_change_<field_key>`
+   * Eg: `$this->loader->add_action( 'plugin_name_settings_on_change_my_tab_name', $plugin_admin, 'my_tab_name_settings_save', 10, 2 );`
 
 ## Limitation
 * `tab_slug` cannot be the same as `field_key`

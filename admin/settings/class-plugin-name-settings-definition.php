@@ -23,22 +23,6 @@ class Plugin_Name_Settings_Definition {
 	public static $plugin_name = 'plugin-name';
 
 	/**
-	 * Sanitize plugin name.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access    private
-	 * @return    string            Sanitized snake cased plugin name
-	 */
-	private static function get_snake_cased_plugin_name() {
-
-		return str_replace( '-', '_', sanitize_key( self::$plugin_name ) );
-
-	}
-
-	/**
 	 * [apply_tab_slug_filters description]
 	 *
 	 * @param  array $default_settings [description]
@@ -54,7 +38,7 @@ class Plugin_Name_Settings_Definition {
 
 			$options = isset( $default_settings[ $tab_slug ] ) ? $default_settings[ $tab_slug ] : array();
 
-			$extended_settings[ $tab_slug ] = apply_filters( self::get_snake_cased_plugin_name() . '_settings_' . $tab_slug, $options );
+			$extended_settings[ $tab_slug ] = apply_filters( 'plugin_name_settings_' . $tab_slug, $options );
 		}
 
 		return $extended_settings;
@@ -81,7 +65,7 @@ class Plugin_Name_Settings_Definition {
 		$tabs['default_tab'] = __( 'Default Tab', self::$plugin_name );
 		$tabs['second_tab']  = __( 'Second Tab', self::$plugin_name );
 
-		return apply_filters( self::get_snake_cased_plugin_name() . '_settings_tabs', $tabs );
+		return apply_filters( 'plugin_name_settings_tabs', $tabs );
 	}
 
 	/**

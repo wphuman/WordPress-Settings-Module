@@ -21,15 +21,6 @@ class Plugin_Name_Callback_Helper {
 	private $plugin_name;
 
 	/**
-	 * The snake cased version of plugin ID for making hook tags.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $snake_cased_plugin_name;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -38,31 +29,15 @@ class Plugin_Name_Callback_Helper {
 	public function __construct( $plugin_name ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
 
-	}
-
-	/**
-	 * Sanitize a string key.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access   private
-	 * @param  string 	$key 	String key
-	 * @return string 	     	Sanitized snake cased key
-	 */
-	private function sanitize_snake_cased( $key ) {
-		return str_replace( '-', '_', sanitize_key( $key ) );
 	}
 
 	private function get_id_attribute( $id ) {
-		return ' id="' . $this->snake_cased_plugin_name . '_settings[' . $id . ']" ';
+		return ' id="plugin_name_settings[' . $id . ']" ';
 	}
 
 	private function get_name_attribute( $name ) {
-		return ' name="' . $this->snake_cased_plugin_name . '_settings[' . $name . ']" ';
+		return ' name="plugin_name_settings[' . $name . ']" ';
 	}
 
 	private function get_id_and_name_attrubutes( $field_key ) {
@@ -70,7 +45,7 @@ class Plugin_Name_Callback_Helper {
 	}
 
 	private function get_label_for( $id, $desc ) {
-		return '<label for="' . $this->snake_cased_plugin_name . '_settings[' . $id . ']"> '  . $desc . '</label>';
+		return '<label for="plugin_name_settings[' . $id . ']"> '  . $desc . '</label>';
 	}
 
 	/**
@@ -391,7 +366,7 @@ class Plugin_Name_Callback_Helper {
 
 		if ( $wp_version >= 3.3 && function_exists( 'wp_editor' ) ) {
 			ob_start();
-			wp_editor( stripslashes( $value ), $this->snake_cased_plugin_name . '_settings_' . $args['id'], array( 'textarea_name' => $this->snake_cased_plugin_name . '_settings[' . $args['id'] . ']' ) );
+			wp_editor( stripslashes( $value ), 'plugin_name_settings_' . $args['id'], array( 'textarea_name' => 'plugin_name_settings[' . $args['id'] . ']' ) );
 			$html = ob_get_clean();
 		} else {
 			$html = '<textarea' . $this->get_id_and_name_attrubutes( $args['id'] ) . 'class="' . $args['size'] . '-text" rows="10" >' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
@@ -418,10 +393,10 @@ class Plugin_Name_Callback_Helper {
 
 		$html = '<input type="text" ';
 		$html .= $this->get_id_and_name_attrubutes( $args['id'] );
-		$html .= 'class="' . $args['size'] . '-text ' . $this->snake_cased_plugin_name . '_upload_field" ';
+		$html .= 'class="' . $args['size'] . '-text ' . 'plugin_name_upload_field" ';
 		$html .= ' value="' . esc_attr( stripslashes( $value ) ) . '"/>';
 
-		$html .= '<span>&nbsp;<input type="button" class="' . $this->snake_cased_plugin_name . '_settings_upload_button button-secondary" value="' . __( 'Upload File', $this->plugin_name ) . '"/></span>';
+		$html .= '<span>&nbsp;<input type="button" class="' .  'plugin_name_settings_upload_button button-secondary" value="' . __( 'Upload File', $this->plugin_name ) . '"/></span>';
 
 		$html .= $this->get_label_for( $args['id'], $args['desc'] );
 

@@ -31,15 +31,6 @@ class Plugin_Name_Settings {
 	private $version;
 
 	/**
-	 * The snake cased version of plugin ID for making hook tags.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $snake_cased_plugin_name;
-
-	/**
 	 * The array of plugin settings.
 	 *
 	 * @since    1.0.0
@@ -77,30 +68,12 @@ class Plugin_Name_Settings {
 	public function __construct( $plugin_name, $settings_callback, $settings_sanitization ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
 
 		$this->callback = $settings_callback;
 
 		$this->sanitization = $settings_sanitization;
 
 		$this->registered_settings = Plugin_Name_Settings_Definition::get_settings();
-	}
-
-	/**
-	 * Sanitize a string key.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access   private
-	 * @param  string 	$key 	String key
-	 * @return string 	     	Sanitized snake cased key
-	 */
-	private function sanitize_snake_cased( $key ) {
-
-		return str_replace( '-', '_', sanitize_key( $key ) );
-
 	}
 
 	/**
@@ -111,18 +84,18 @@ class Plugin_Name_Settings {
 	*/
 	public function register_settings() {
 
-		if ( false == get_option( $this->snake_cased_plugin_name . '_settings' ) ) {
-			add_option( $this->snake_cased_plugin_name . '_settings', array(), '', 'yes' );
+		if ( false == get_option( 'plugin_name_settings' ) ) {
+			add_option( 'plugin_name_settings', array(), '', 'yes' );
 		}
 
 		foreach( $this->registered_settings as $tab => $settings ) {
 
 			// add_settings_section( $id, $title, $callback, $page )
 			add_settings_section(
-				$this->snake_cased_plugin_name . '_settings_' . $tab,
+				'plugin_name_settings_' . $tab,
 				__return_null(),
 				'__return_false',
-				$this->snake_cased_plugin_name . '_settings_' . $tab
+				'plugin_name_settings_' . $tab
 				);
 
 			foreach ( $settings as $key => $option ) {
@@ -131,11 +104,11 @@ class Plugin_Name_Settings {
 
 				// add_settings_field( $id, $title, $callback, $page, $section, $args )
 				add_settings_field(
-					$this->snake_cased_plugin_name . '_settings[' . $key . ']',
+					'plugin_name_settings[' . $key . ']',
 					$_name,
 					method_exists( $this->callback, $option['type'] . '_callback' ) ? array( $this->callback, $option['type'] . '_callback' ) : array( $this->callback, 'missing_callback' ),
-					$this->snake_cased_plugin_name . '_settings_' . $tab,
-					$this->snake_cased_plugin_name . '_settings_' . $tab,
+					'plugin_name_settings_' . $tab,
+					'plugin_name_settings_' . $tab,
 					array(
 						'id'      => $key,
 						'desc'    => !empty( $option['desc'] ) ? $option['desc'] : '',
@@ -154,7 +127,7 @@ class Plugin_Name_Settings {
 		} // end foreach
 
 		// Creates our settings in the options table
-		register_setting( $this->snake_cased_plugin_name . '_settings', $this->snake_cased_plugin_name . '_settings', array( $this->sanitization, 'settings_sanitize' ) );
+		register_setting( 'plugin_name_settings', 'plugin_name_settings', array( $this->sanitization, 'settings_sanitize' ) );
 
 	}
 }
