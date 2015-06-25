@@ -5,10 +5,11 @@
 !.gitignore
 !readme.md
 !screenshot-*
-!admin/*.php
-!admin/partials/*.php
-!admin/settings/*.php
+!admin/*
+!admin/partials/*
+!admin/settings/*
 !includes/class-plugin-name-option.php
 !includes/class-plugin-name.php
 
 index.php
+.DS_Store
