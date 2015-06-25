@@ -40,15 +40,6 @@ class Plugin_Name_Admin {
 	private $version;
 
 	/**
-	 * The snake cased version of plugin ID for making hook tags.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $snake_cased_plugin_name;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -59,25 +50,6 @@ class Plugin_Name_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		$this->snake_cased_plugin_name = $this->sanitize_snake_cased( $plugin_name );
-
-	}
-
-	/**
-	 * Sanitize a string key.
-	 *
-	 * Lowercase alphanumeric characters and underscores are allowed.
-	 * Uppercase characters will be converted to lowercase.
-	 * Dashes characters will be converted to underscores.
-	 *
-	 * @access   private
-	 * @param  string 	$key 	String key
-	 * @return string 	     	Sanitized snake cased key
-	 */
-	private function sanitize_snake_cased( $key ) {
-
-		return str_replace( '-', '_', sanitize_key( $key ) );
-
 	}
 
 	/**
