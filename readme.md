@@ -1,3 +1,5 @@
+**Deprecated**. Use [WP Better Settings](https://github.com/Typisttech/wp-better-settings) instead. 
+
 # WordPress Settings Module
 
 WordPress Settings Module is a standardized, organized, object-oriented foundation for building extendable WordPress Plugins.
